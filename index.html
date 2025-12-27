@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>KisahSlot - Lucky Spin USER ID</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: manipulation;
+    }
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      padding: 15px 10px;
+      display: block;
+    }
+    .spin-container {
+      width: 100%;
+      max-width: 380px;
+      margin: 20px auto;
+      background: rgba(17, 17, 17, 0.95);
+      border-radius: 32px;
+      padding: 24px 18px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
+      position: relative;
+      overflow: visible;
+      border: 3px solid #00ff00;
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ffd700, #ff6b6b, #f9ca24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 6px;
+      padding: 0 10px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .subtitle {
+      color: #0f0;
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 14px;
+      padding: 0 10px;
+      font-weight: 600;
+      text-shadow: 0 0 8px #0f0;
+      line-height: 1.3;
+    }
+    .ribbon {
+      position: absolute;
+      top: 28px;
+      right: -35px;
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+      color: #fff;
+      padding: 4px 40px;
+      font-size: 0.6rem;
+      font-weight: bold;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      z-index: 5;
+      letter-spacing: 0.2px;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 20px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #444;
+      color: #aaa;
+      font-weight: bold;
+      font-size: 0.95rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+    .tab-btn.active {
+      background: linear-gradient(45deg, #00ff00, #00cc00);
+      border-color: #00ff00;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0,255,0,0.5);
+    }
+    .tab-btn:hover:not(.active) {
+      border-color: #666;
+      color: #fff;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .code-input {
+      background: #000;
+      border: 3px solid #0f0;
+      color: #fff;
+      text-align: center;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      border-radius: 16px;
+      padding: 12px 10px;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.25);
+      text-transform: uppercase;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    .code-input::placeholder {
+      color: #0f0;
+      opacity: 0.7;
+      font-size: 0.95rem;
+    }
+    .hint {
+      color: #0f0 !important;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 8px;
+      padding: 0 10px;
+      font-weight: 500;
+      text-shadow: 0 0 6px #0f0;
+      line-height: 1.3;
+    }
+    #wheel-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 20px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #111 50%, #000 100%);
+      box-shadow:
+        0 0 20px rgba(255, 255, 0, 0.4),
+        0 0 35px rgba(255, 255, 0, 0.2),
+        inset 0 0 30px rgba(0,0,0,0.9);
+      padding: 10px;
+      border: 3px solid #ffd700;
+    }
+    #wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+    }
+    .pointer {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 36px solid #f1c40f;
+      filter: drop-shadow(0 3px 6px #000);
+      z-index: 10;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+    .btn-spin {
+      background: linear-gradient(45deg, #ff6b6b, #f9ca24, #ffd700);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 14px 16px;
+      border-radius: 50px;
+      width: 100%;
+      margin-top: 16px;
+      box-shadow: 0 8px 20px rgba(255,107,107,0.5);
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-spin:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255,107,107,0.9);
+    }
+    .btn-spin:disabled {
+      background: #444;
+      color: #888;
+      cursor: not-allowed;
+      transform: none;
+    }
+    #result {
+      min-height: 80px;
+      padding: 16px 12px;
+      border-radius: 18px;
+      margin-top: 16px;
+      background: rgba(0,0,0,0.85);
+      font-weight: bold;
+      text-align: center;
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    .jackpot-glow {
+      animation: jackpot 1.8s infinite alternate;
+      font-size: 1.5rem !important;
+      line-height: 1.4;
+    }
+    @keyframes jackpot {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #ff0;
+        transform: scale(1);
+      }
+      to {
+        text-shadow: 0 0 15px #fff, 0 0 30px #ff0, 0 0 50px #ff0;
+        transform: scale(1.03);
+      }
+    }
+    .confetti {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: #f00;
+      top: -15px;
+      z-index: 1000;
+      border-radius: 50% 0;
+      animation: fall 3.5s linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(1080deg) scale(0.5);
+        opacity: 0;
+      }
+    }
+    .history-table {
+      background: rgba(0,0,0,0.7);
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .history-table table {
+      width: 100%;
+      color: #fff;
+    }
+    .history-table th {
+      background: linear-gradient(45deg, #00ff00, #00cc00);
+      color: #000;
+      padding: 10px 8px;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .history-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #333;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .history-table tr:hover td {
+      background: rgba(0,255,0,0.1);
+    }
+    .btn-view-history {
+      background: linear-gradient(45deg, #00ff00, #00cc00);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 12px 20px;
+      border-radius: 50px;
+      width: 100%;
+      margin-top: 16px;
+      box-shadow: 0 8px 20px rgba(0,255,0,0.4);
+      transition: all 0.3s;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btn-view-history:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(0,255,0,0.6);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      overflow-y: auto;
+    }
+    .modal.show {
+      display: block;
+    }
+    .modal-content {
+      background: rgba(17, 17, 17, 0.98);
+      margin: 5% auto;
+      padding: 25px;
+      border: 3px solid #00ff00;
+      border-radius: 25px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 40px rgba(0,255,0,0.5);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #00ff00;
+    }
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #ffd700, #00ff00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .close-btn {
+      background: #e74c3c;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-btn:hover {
+      background: #c0392b;
+      transform: rotate(90deg);
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+    }
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    @media (max-width: 400px) {
+      .spin-container { padding: 20px 15px; }
+      #wheel-container { width: 240px; height: 240px; margin: 18px auto; }
+      .logo { font-size: 1.85rem; }
+      .subtitle { font-size: 0.95rem; }
+      .code-input { font-size: 1.2rem; padding: 11px 8px; letter-spacing: 1.5px; }
+      .btn-spin { font-size: 0.95rem; padding: 13px 14px; }
+      .pointer { 
+        border-left: 16px solid transparent; 
+        border-right: 16px solid transparent; 
+        border-top: 32px solid #f1c40f; 
+        top: -9px;
+      }
+      .jackpot-glow { font-size: 1.3rem !important; }
+      .tab-btn { font-size: 0.85rem; padding: 10px 15px; }
+      .history-table th { font-size: 0.8rem; padding: 8px 5px; }
+      .history-table td { font-size: 0.75rem; padding: 8px 5px; }
+    }
+    @media (max-width: 360px) {
+      .spin-container { padding: 18px 12px; max-width: 340px; }
+      #wheel-container { width: 220px; height: 220px; margin: 16px auto; }
+      .logo { font-size: 1.7rem; }
+      .subtitle { font-size: 0.9rem; }
+      .code-input { font-size: 1.1rem; padding: 10px 6px; }
+      .hint { font-size: 0.8rem; }
+      .btn-spin { font-size: 0.9rem; padding: 12px; }
+      .jackpot-glow { font-size: 1.2rem !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="spin-container">
+  <div class="ribbon">USER ID = HADIAH!</div>
+  <div class="logo">KISAH SLOT</div>
+  <div class="subtitle">Klaim Hadiahmu dengan USER ID!</div>
+  
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('hadiah')">
+      <i class="fas fa-gift"></i> Hadiah
+    </button>
+    <button class="tab-btn" onclick="switchTab('riwayat')">
+      <i class="fas fa-history"></i> Riwayat
+    </button>
+  </div>
+  
+  <div id="hadiah-tab" class="tab-content active">
+    <input type="text" id="userId" class="form-control code-input" placeholder="MASUKKAN USER ID" maxlength="20" autocomplete="off"/>
+    <p class="hint">Masukkan USER ID kamu setelah daftar!</p>
+    <div id="wheel-container">
+      <div class="pointer"></div>
+      <canvas id="wheel" width="240" height="240"></canvas>
+    </div>
+    <button class="btn btn-spin" id="spinBtn" disabled>
+      <i class="fas fa-lock"></i> MASUKKAN USER ID
+    </button>
+    <div id="result"></div>
+  </div>
+  
+  <div id="riwayat-tab" class="tab-content">
+    <div class="history-table" id="historyPreview">
+      <div class="text-center text-muted">
+        <i class="fas fa-spinner fa-spin"></i> Memuat riwayat...
+      </div>
+    </div>
+    <button class="btn-view-history" onclick="openModal()">
+      <i class="fas fa-list"></i> Lihat Semua Riwayat
+    </button>
+  </div>
+</div>
+
+<div id="historyModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">
+        <i class="fas fa-trophy"></i> 50 Riwayat Spin Terakhir
+      </h3>
+      <button class="close-btn" onclick="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="history-table" id="fullHistoryTable">
+      <div class="text-center text-muted">
+        <i class="fas fa-spinner fa-spin"></i> Memuat...
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4743d9b61e.mp3" type="audio/mpeg">
+</audio>
+<audio id="spinSound">
+  <source src="https://cdn.pixabay.com/audio/2022/03/24/audio_01d8c0991d.mp3" type="audio/mpeg">
+</audio>
+<audio id="winSound">
+  <source src="https://cdn.pixabay.com/audio/2021/08/04/audio_12b0c7443c.mp3" type="audio/mpeg">
+</audio>
+<audio id="clickSound">
+  <source src="https://cdn.pixabay.com/audio/2023/10/30/audio_0237e53743.mp3" type="audio/mpeg">
+</audio>
+<audio id="winBigSound">
+  <source src="https://cdn.pixabay.com/audio/2021/08/04/audio_d1718ab41b.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const prizes = [
+  {text: "Rp25K", color: "#a29bfe"},
+  {text: "Rp50K", color: "#74b9ff"},
+  {text: "Rp75K", color: "#81ecec"},
+  {text: "Rp100K", color: "#fab1a0"},
+  {text: "Rp150K", color: "#ff7675"},
+  {text: "Rp200K", color: "#ffd700", glow: true}
+];
+
+const wheel = document.getElementById('wheel');
+const ctx = wheel.getContext('2d');
+const spinBtn = document.getElementById('spinBtn');
+const resultDiv = document.getElementById('result');
+const userIdInput = document.getElementById('userId');
+const bgMusic = document.getElementById('bgMusic');
+const spinSound = document.getElementById('spinSound');
+const winSound = document.getElementById('winSound');
+const clickSound = document.getElementById('clickSound');
+const winBigSound = document.getElementById('winBigSound');
+
+let isSpinning = false;
+let currentRotation = 0;
+let clickInterval;
+
+let musicStarted = false;
+
+function startBackgroundMusic() {
+  if (!musicStarted) {
+    bgMusic.volume = 0.3;
+    bgMusic.play().catch(e => console.log('Auto-play blocked:', e));
+    musicStarted = true;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(startBackgroundMusic, 100);
+  
+  document.body.addEventListener('click', startBackgroundMusic, { once: true });
+  document.body.addEventListener('touchstart', startBackgroundMusic, { once: true });
+});
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  
+  if (tab === 'hadiah') {
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    document.getElementById('hadiah-tab').classList.add('active');
+  } else {
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    document.getElementById('riwayat-tab').classList.add('active');
+    loadHistory(10, 'historyPreview');
+  }
+}
+
+function openModal() {
+  document.getElementById('historyModal').classList.add('show');
+  loadHistory(50, 'fullHistoryTable');
+}
+
+function closeModal() {
+  document.getElementById('historyModal').classList.remove('show');
+}
+
+window.onclick = function(event) {
+  const modal = document.getElementById('historyModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+
+async function loadHistory(limit = 10, targetId) {
+  const container = document.getElementById(targetId);
+  container.innerHTML = '<div class="text-center text-muted"><i class="fas fa-spinner fa-spin"></i> Memuat...</div>';
+  
+  try {
+    const response = await fetch(`/api/history?limit=${limit}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Response bukan JSON");
+    }
+    
+    const data = await response.json();
+    
+    if (data.success && data.history && data.history.length > 0) {
+      let html = '<table class="table-borderless w-100"><thead><tr>';
+      html += '<th>NO</th><th>USERNAME</th><th>HADIAH</th>';
+      if (limit > 10) html += '<th>WAKTU</th>';
+      html += '</tr></thead><tbody>';
+      
+      data.history.forEach((item, index) => {
+        html += '<tr>';
+        html += `<td>${index + 1}</td>`;
+        html += `<td><i class="fas fa-user text-warning"></i> ${item.username}</td>`;
+        html += `<td><span class="text-success fw-bold">${item.prize}</span></td>`;
+        if (limit > 10) {
+          const date = new Date(item.time);
+          html += `<td style="font-size:0.7rem">${date.toLocaleString('id-ID', {dateStyle: 'short', timeStyle: 'short'})}</td>`;
+        }
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    } else {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Belum ada riwayat spin</p>
+          <small>Jadilah yang pertama!</small>
+        </div>
+      `;
+    }
+  } catch (error) {
+    console.error('Error loading history:', error);
+    container.innerHTML = `
+      <div class="text-center text-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>Gagal memuat riwayat</p>
+        <small>${error.message}</small>
+      </div>
+    `;
+  }
+}
+
+async function saveSpinToDatabase(username, prize, prizeAmount) {
+  try {
+    const response = await fetch('/api/spin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        prize: prize,
+        prize_amount: prizeAmount
+      })
+    });
+    
+    const data = await response.json();
+    return data.success;
+  } catch (error) {
+    console.error('Error saving spin:', error);
+    return false;
+  }
+}
+
+if (localStorage.getItem('hasSpun') === 'true') {
+  userIdInput.disabled = true;
+  spinBtn.disabled = true;
+  spinBtn.innerHTML = '<i class="fas fa-check"></i> SUDAH DIKLAIM';
+  resultDiv.innerHTML = '<div class="text-warning">Klaim hanya 1x per USER ID!</div>';
+}
+
+function drawWheel() {
+  const numPrizes = prizes.length;
+  const segmentAngle = (2 * Math.PI) / numPrizes;
+  const centerX = wheel.width / 2;
+  const centerY = wheel.height / 2;
+  const radius = centerX - 10;
+  const rotationOffset = -Math.PI / 2 - segmentAngle / 2;
+
+  prizes.forEach((prize, i) => {
+    const startAngle = rotationOffset + i * segmentAngle;
+    const endAngle = startAngle + segmentAngle;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.fillStyle = prize.color;
+    ctx.fill();
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(startAngle + segmentAngle / 2);
+    ctx.fillStyle = prize.glow ? "#000" : "#fff";
+    ctx.font = "bold 15px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(prize.text, radius * 0.65, 5);
+    ctx.restore();
+  });
+}
+
+function createConfetti() {
+  for (let i = 0; i < 100; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    const colors = ['#ffd700','#ff6b6b','#00ff00','#00ffff','#ff00ff','#ffffff'];
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = Math.random() * 2 + 's';
+    c.style.animationDuration = (Math.random() * 3 + 2.5) + 's';
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 6000);
+  }
+}
+
+function calculateWinningRotation(winningIndex) {
+  const numPrizes = prizes.length;
+  const segmentAngle = 360 / numPrizes;
+  
+  const currentAngle = currentRotation % 360;
+  
+  const targetAngle = 360 - (winningIndex * segmentAngle);
+  
+  let deltaRotation = (targetAngle - currentAngle) % 360;
+  if (deltaRotation < 0) deltaRotation += 360;
+  
+  const fullSpins = 5 + Math.floor(Math.random() * 3);
+  
+  const totalRotation = (fullSpins * 360) + deltaRotation;
+  
+  return totalRotation;
+}
+
+userIdInput.addEventListener('input', () => {
+  const uid = userIdInput.value.trim();
+  const valid = /^[a-zA-Z0-9]{4,20}$/.test(uid);
+  spinBtn.disabled = !valid || isSpinning || localStorage.getItem('hasSpun') === 'true';
+  spinBtn.innerHTML = valid ? '<i class="fas fa-play"></i> SPIN & KLAIM!' : '<i class="fas fa-lock"></i> MASUKKAN USER ID';
+});
+
+spinBtn.addEventListener('click', async () => {
+  if (isSpinning || localStorage.getItem('hasSpun') === 'true') return;
+  
+  isSpinning = true;
+  spinBtn.disabled = true;
+  resultDiv.innerHTML = '';
+  
+  startBackgroundMusic();
+  
+  spinSound.currentTime = 0;
+  spinSound.volume = 0.7;
+  spinSound.play().catch(() => {});
+  
+  clickSound.volume = 0.4;
+  clickInterval = setInterval(() => {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {});
+  }, 150);
+  
+  const randomIndex = Math.floor(Math.random() * prizes.length);
+  
+  const finalRotation = calculateWinningRotation(randomIndex);
+  
+  currentRotation += finalRotation;
+  
+  wheel.style.transform = `rotate(${currentRotation}deg)`;
+  
+  setTimeout(async () => {
+    clearInterval(clickInterval);
+    spinSound.pause();
+    spinSound.currentTime = 0;
+    
+    setTimeout(() => {
+      if (randomIndex >= 4) {
+        winBigSound.currentTime = 0;
+        winBigSound.volume = 0.8;
+        winBigSound.play().catch(e => console.log('Win big sound error:', e));
+      } else {
+        winSound.currentTime = 0;
+        winSound.volume = 0.8;
+        winSound.play().catch(e => console.log('Win sound error:', e));
+      }
+      createConfetti();
+    }, 200);
+    
+    currentRotation = currentRotation % 360;
+    wheel.style.transition = 'none';
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+    setTimeout(() => {
+      wheel.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+    }, 50);
+    
+    const prize = prizes[randomIndex];
+    const userId = userIdInput.value.trim().toUpperCase();
+  
+    const saved = await saveSpinToDatabase(userId, prize.text, prize.text);
+    
+    resultDiv.innerHTML = `
+      <div class="text-success jackpot-glow">SELAMAT ${userId}!</div>
+      <div class="text-warning fw-bold mt-2" style="font-size: 1.8rem;">Kamu Dapat ${prize.text}</div>
+      <small class="text-success mt-2 d-block" style="font-size: 0.85rem;">Hadiah masuk ke USER ID: <b>${userId}</b></small>
+      <small class="text-muted" style="font-size: 0.8rem;">Cek saldo dalam 1 menit!</small>
+      ${saved ? '<small class="text-info d-block mt-1" style="font-size:0.7rem;"><i class="fas fa-check-circle"></i> Tersimpan di riwayat</small>' : ''}
+    `;
+    
+    localStorage.setItem('hasSpun', 'true');
+    userIdInput.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-check"></i> SUDAH DIKLAIM';
+    isSpinning = false;
+  }, 5200);
+});
+
+drawWheel();
+loadHistory(10, 'historyPreview');
+</script>
+</body>
+</html>
